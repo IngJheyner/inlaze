@@ -20,8 +20,8 @@ https://www.loom.com/share/096fc6e45f3f411bbbb1222dbb16f113?sid=1df897a0-b85f-43
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone [URL_DEL_REPOSITORIO]
-cd [NOMBRE_DEL_PROYECTO]
+git clone https://github.com/IngJheyner/inlaze
+cd inlaze
 ```
 
 ### 2. Configuración de Variables de Entorno

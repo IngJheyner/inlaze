@@ -1,0 +1,39 @@
+@startuml Asignar Tarea a Usuario
+actor Usuario as user
+participant "Frontend\n(React)" as frontend
+participant "API Gateway" as gateway
+participant "Servicio de Tareas" as taskService
+participant "Repositorio\nde Tareas" as taskRepo
+database MongoDB as db
+
+user -> frontend: 1. Selecciona usuario y\ncrea nueva tarea
+activate frontend
+
+frontend -> gateway: 2. POST /tasks\n{userId, title, description}
+activate gateway
+
+gateway -> taskService: 3. Crear tarea
+activate taskService
+
+taskService -> taskService: 4. Validar datos\nde la tarea
+
+taskService -> taskRepo: 5. Guardar tarea
+activate taskRepo
+
+taskRepo -> db: 6. Insertar documento
+activate db
+db --> taskRepo: 7. Retorna tarea creada
+deactivate db
+
+taskRepo --> taskService: 8. Retorna tarea
+deactivate taskRepo
+
+taskService --> gateway: 9. Tarea creada
+deactivate taskService
+
+gateway --> frontend: 10. Response 201\n{taskData}
+deactivate gateway
+
+frontend -> frontend: 11. Actualizar estado\nlocal de tareas
+
+@enduml
