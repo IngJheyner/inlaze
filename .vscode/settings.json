@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "Hasheamos",
+        "hashearla",
+        "INITDB",
+        "mongodb",
+        "Redirecciona"
+    ],
+    "plantuml.render": "PlantUMLServer",
+    "plantuml.server": "https://www.plantuml.com/plantuml",
+    "plantuml.exportFormat": "png"
+}

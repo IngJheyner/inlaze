@@ -1,0 +1,25 @@
+{
+    "name": "task-management-app",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+      "backend",
+      "frontend"
+    ],
+    "scripts": {
+      "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+      "start:backend": "npm run start --workspace=backend",
+      "start:frontend": "npm run dev --workspace=frontend",
+      "build": "npm run build --workspaces",
+      "build:backend": "npm run build --workspace=backend",
+      "build:frontend": "npm run build --workspace=frontend",
+      "test": "npm run test --workspaces",
+      "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+      "dev:backend": "npm run dev --workspace=backend",
+      "dev:frontend": "npm run dev --workspace=frontend"
+    },
+    "devDependencies": {
+      "concurrently": "^8.0.1"
+    }
+  }
+  

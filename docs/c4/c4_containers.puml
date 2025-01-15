@@ -1,0 +1,78 @@
+@startuml C4_Containers
+!define PLANTUML_SERVER_URL https://www.plantuml.com/plantuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' Definición de estilos personalizados
+AddElementTag("microservice", $shape=EightSidedShape(), $bgColor="#23BD8E", $fontColor="#ffffff")
+AddElementTag("database", $shape=CloudNode(), $bgColor="#438DD5")
+
+' Usuario externo
+Person(usuario, "Usuario", "Usuario del sistema que gestiona tareas")
+
+System_Boundary(sistema, "Sistema de Gestión de Usuarios y Tareas") {
+    ' Frontend
+    Container(spa, "Frontend SPA", "React + TypeScript", "Interfaz de usuario para gestión de usuarios y tareas")
+
+    ' Backend
+    Container(api_gateway, "API Gateway", "Express + Node.js 20 + TypeScript", "Maneja las peticiones HTTP y enrutamiento")
+
+    ' Servicios principales usando el patrón Repository
+    Container(user_service, "Servicio de Usuarios", "TypeScript + Node.js", "Gestiona la lógica de negocio de usuarios", $tags="microservice")
+    Container(task_service, "Servicio de Tareas", "TypeScript + Node.js", "Gestiona la lógica de negocio de tareas", $tags="microservice")
+
+    ' Repositorios
+    Container(user_repo, "Repositorio de Usuarios", "TypeScript", "Implementa operaciones CRUD para usuarios")
+    Container(task_repo, "Repositorio de Tareas", "TypeScript", "Implementa operaciones CRUD para tareas")
+
+    ' Base de datos
+    ContainerDb(mongodb, "Base de Datos", "MongoDB", "Almacena usuarios y tareas", $tags="database")
+}
+
+' Relaciones
+Rel(usuario, spa, "Accede a través de", "HTTP")
+Rel(spa, api_gateway, "Realiza peticiones API", "JSON/HTTP")
+
+Rel_R(api_gateway, user_service, "Redirecciona peticiones de usuarios", "HTTP")
+Rel_R(api_gateway, task_service, "Redirecciona peticiones de tareas", "HTTP")
+
+Rel_D(user_service, user_repo, "Usa")
+Rel_D(task_service, task_repo, "Usa")
+
+Rel_D(user_repo, mongodb, "Lee/Escribe datos de usuarios", "MongoDB Driver")
+Rel_D(task_repo, mongodb, "Lee/Escribe datos de tareas", "MongoDB Driver")
+
+' Leyenda
+Lay_D(usuario, spa)
+
+' Notas explicativas
+note right of user_service
+  Funcionalidades principales:
+  * CRUD de usuarios
+  * Validación de email
+end note
+
+note right of task_service
+  Funcionalidades principales:
+  * CRUD de tareas
+  * Lista de tareas por usuario
+end note
+
+note right of mongodb
+  Colecciones:
+  * users
+  * tasks
+end note
+
+note right of spa
+  Estructura principal:
+  * /components - Componentes reutilizables
+  * /pages - Vistas principales
+  * /services - Servicios API con Axios
+    - userService.ts
+    - taskService.ts
+  * /types - Tipos TypeScript
+  * /routes - Rutas de la aplicación
+end note
+
+
+@enduml
