@@ -31,7 +31,7 @@ cd inlaze
 Para la URL de MongoDB, reemplaza las variables en mayúsculas con tus valores:
 
 ```bash
-MONGO_URL=mongodb+srv://<username>:<password>@cluster0.mongodb.net/<dbname>?retryWrites=true&w=majority
+mongodb://<user>:<password>@localhost:27017/?retryWrites=true&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-256
 ```
 
 ### 3. Iniciar MongoDB con Docker
